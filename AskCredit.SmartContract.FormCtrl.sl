@@ -105,7 +105,7 @@
       <string>Administrator</string>
      </void>
      <void property="createDate">
-      <string>2024/04/16 14:58:47</string>
+      <string>2024/04/16 16:27:40</string>
      </void>
      <void property="fullName">
       <string>AskCredit.SmartContract.FormCtrl</string>
@@ -194,6 +194,7 @@ function getConfig(){
     Config.PaName15 = &quot;薪傳保險補助金協議書&quot;; //介面 AccordionPanel11
     Config.PaName16 = &quot;薪傳獎勵金協議書&quot;; //介面 AccordionPanel12
     Config.PaName17 = &quot;續約特別協議書&quot;; // //介面 AccordionPanel13
+    Config.PaName18 = &quot;新接店特別契約&quot;; // //介面 AccordionPanel13
 
 	//契約一覽表卡控-合約書名稱/卡控訊息
     Config.ContractName1 = &quot;保證金變更協議書(30萬+100萬設定)&quot;;
@@ -250,8 +251,8 @@ function SetEditContractInitData(pForm){//初始化資料
     || StoreType7.equals(cmbStoreType)	//機構
 	){
         //顯示使用-每次開啟帶入
-        Form.setValue(&quot;txtSignatoryName&quot;,pForm.getValue(&quot;txtSignatorySC&quot;));//續約特別契約書-乙方
-        Form.setValue(&quot;txtRSCNF&quot;,pForm.getValue(&quot;txtStoreNoSC&quot;) + &quot; &quot; + pForm.getValue(&quot;txtStoreNameSC&quot;));//續約特別契約書-新加盟店
+        Form.setValue(&quot;txtSignatoryName&quot;,pForm.getValue(&quot;txtSignatorySC&quot;));//續約特別協議書-乙方
+        Form.setValue(&quot;txtRSCNF&quot;,pForm.getValue(&quot;txtStoreNoSC&quot;) + &quot; &quot; + pForm.getValue(&quot;txtStoreNameSC&quot;));//續約特別協議書-新加盟店
         Form.setValue(&quot;txtSignatoryName2&quot;,pForm.getValue(&quot;txtSignatorySC&quot;));//複數特別協議書-乙方
 		
 		//複數特別協議書
@@ -396,7 +397,7 @@ function SetEditContractUI(pForm){
 	var PaName10 = Config.PaName10;
     var PaName11 = Config.PaName15;//薪傳保險補助金協議書
     var PaName12 = Config.PaName16;//薪傳獎勵金協議書
-    var PaName13 = Config.PaName17;//續約特別契約書
+    var PaName13 = Config.PaName17;//續約特別協議書
     var PaName14 = Config.PaName11;//複數特別協議書
 
 	Form.getComponent(&quot;btnCreateNewPdf&quot;).setVisible(false);//立即產生合約按鈕
@@ -454,7 +455,7 @@ function SetEditContractUI(pForm){
 	var AP10Flag = false;//　擔保金收據
     var AP11Flag = false;//薪傳保險補助金協議書
     var AP12Flag = false;//薪傳獎勵金協議書
-    var AP13Flag = false;//續約特別契約書
+    var AP13Flag = false;//續約特別協議書
     var AP14Flag = false;//複數特別協議書
 	
 	var ppForm = pForm.getParentForm();
@@ -570,7 +571,7 @@ function SetEditContractUI(pForm){
     Form.getComponent(&quot;txtLBAOS1&quot;).setEnabled(AP12Flag);
     Form.getComponent(&quot;txtLBARC1&quot;).setEnabled(AP12Flag);
     Form.getComponent(&quot;txtLBAAmt&quot;).setEnabled(AP12Flag);
-    //續約特別契約書
+    //續約特別協議書
     Form.getComponent(&quot;txtSignatoryName&quot;).setEnabled(false);//固定不可編輯-顯示用
     Form.getComponent(&quot;txtRSCNF&quot;).setEnabled(false);//固定不可編輯-顯示用
     Form.getComponent(&quot;txtRSCOFS&quot;).setEnabled(AP13Flag);
@@ -615,7 +616,7 @@ function ChkContractEdit(ArtIns,From){//From: 0 主單(申請人), 1 會辦開�
 		//參數初始化
 		var StoreType1 = Config.StoreType1;//新進
 		var StoreType2 = Config.StoreType2;//複數
-		var StoreType3 = Config.StoreType3;//
+		var StoreType3 = Config.StoreType3;//契約期滿續約
 		var StoreType4 = Config.StoreType4;//
 		var StoreType5 = Config.StoreType5;//
 		var StoreType6 = Config.StoreType6;//
@@ -640,13 +641,14 @@ function ChkContractEdit(ArtIns,From){//From: 0 主單(申請人), 1 會辦開�
 
 		var PaName15 = Config.PaName15;//薪傳保險補助金協議書
 		var PaName16 = Config.PaName16;//薪傳獎勵金協議書
-		var PaName17 = Config.PaName17;//續約特別契約書
+		var PaName17 = Config.PaName17;//續約特別協議書
 		var PaName11 = Config.PaName11;//複數特別協議書
+		var PaName18 = Config.PaName18;//新接店特別契約
 		
 		//開始執行
 		if(StoreType1.equals(cmbStoreType)	//新進
 		|| StoreType2.equals(cmbStoreType)	//複數
-		|| true //目前先開放全部
+		//|| true //目前先開放全部
 		){
 			var txtEditContractInsID = ArtIns.getAppValue(&quot;txtEditContractInsID&quot;);
 			if(&quot;&quot;.equals(txtEditContractInsID)){
@@ -889,7 +891,7 @@ function ChkContractEdit(ArtIns,From){//From: 0 主單(申請人), 1 會辦開�
 						}
 					}
 
-					if(ContractNameVec.indexOf(PaName17) != -1){//續約特別契約書------------------------------------------------------------------------
+					if(ContractNameVec.indexOf(PaName17) != -1){//續約特別協議書------------------------------------------------------------------------
 						ContractMsg1 = &quot;&quot;;
 						
 						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtRSCOFS&quot;))){
@@ -923,6 +925,575 @@ function ChkContractEdit(ArtIns,From){//From: 0 主單(申請人), 1 會辦開�
 						}
 						if(!&quot;&quot;.equals(ContractMsg1)){
 							Errmsg += &quot;[&quot;+PaName11+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+
+					if(ContractNameVec.indexOf(PaName18) != -1){//新接店特別契約------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+
+						if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOperiod&quot;))){//第X期
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 第幾期.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOsy&quot;))){//起始年
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 起始年.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOsm&quot;))){//起始月
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 起始月.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOey&quot;))){//終止年
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 終止年.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOem&quot;))){//終止月
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 終止月.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSecurityCommittee&quot;))){//保障委任
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 保障委任.\n&quot;;
+						}
+						
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName18+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					/*if(ContractNameVec.indexOf(PaName11) != -1){
+						var chkPlural = ArtIns.getAppValue(&quot;chkPlural&quot;);//複數
+						if(&quot;true&quot;.equals(chkPlural) &amp;&amp; &quot;false&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName11) + 1))){//勾選複數，無勾選複數特別協議書
+							ContractMsg1 += tabStr + &quot;表單有勾選 [複數]，請勾選契約一覽表[&quot;+PaName11 +&quot;].\n&quot;;
+						}else if(&quot;false&quot;.equals(chkPlural) &amp;&amp; &quot;true&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName11) + 1))){//無勾選複數，有勾選複數特別協議書
+							ContractMsg1 += tabStr + &quot;表單無勾選 [複數]，請勿勾選契約一覽表[&quot;+PaName11 +&quot;].\n&quot;;
+						}
+					}*/
+
+					if(ContractNameVec.indexOf(PaName6) != -1){//保證金收據------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						if(&quot;false&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName6) + 1))){//無勾選保證金收據
+							if(!&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtMarginProvision&quot;)) &amp;&amp; !&quot;0&quot;.equals(ContractArtIns.getAppValue(&quot;txtMarginProvision&quot;))){
+								ContractMsg1 += tabStr + &quot;有設定 [保證金金額]，請勾選契約一覽表[&quot;+PaName6 +&quot;].\n&quot;;
+							}
+						}else{
+							//保證金
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtMarginProvision&quot;))){
+								ContractMsg1 += tabStr + &quot;請填寫 保證金.\n&quot;;
+							}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtMarginProvision&quot;),10))){
+								ContractMsg1 += tabStr + &quot;保證金 請寫數字.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtMarginProvision&quot;),10)&lt;=0){
+								ContractMsg1 += tabStr + &quot;保證金，金額需大於0.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtMarginProvision&quot;),10)&gt;=1000){
+								//ContractMsg1 += tabStr + &quot;保證金，金額異常高.\n&quot;;
+							}
+							
+						}
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName6+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					if(ContractNameVec.indexOf(PaName7) != -1){//加盟金收據------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						if(&quot;false&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName7) + 1))){//無勾選加盟金收據
+							if(!&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtOpenStoreAmount&quot;)) &amp;&amp; !&quot;0&quot;.equals(ContractArtIns.getAppValue(&quot;txtOpenStoreAmount&quot;))){
+								ContractMsg1 += tabStr + &quot;有設定 [開店準備金金額]，請勾選契約一覽表[&quot;+PaName7 +&quot;].\n&quot;;
+							}
+						}else{
+							//草約金減免
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtReduceAmount1&quot;))){
+								ContractMsg1 += tabStr + &quot;請填寫 草約金減免.\n&quot;;
+							}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount1&quot;),10))){
+								ContractMsg1 += tabStr + &quot;草約金減免 請寫數字.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount1&quot;),10)&lt;0){
+								ContractMsg1 += tabStr + &quot;草約金減免，金額需大於等於0.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount1&quot;),10)&gt;100000){
+								ContractMsg1 += tabStr + &quot;草約金減免，金額不可大於10萬.\n&quot;;
+							}
+							//本約金減免
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtReduceAmount2&quot;))){
+								ContractMsg1 += tabStr + &quot;請填寫 本約金減免.\n&quot;;
+							}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount2&quot;),10))){
+								ContractMsg1 += tabStr + &quot;本約金減免 請寫數字.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount2&quot;),10)&lt;0){
+								ContractMsg1 += tabStr + &quot;本約金減免，金額需大於等於0.\n&quot;;
+							}else if(&quot;&quot;.equals(ContractMsg1)){//加盟金減免 = 草約金減免 + 本約金減免
+								if(parseInt((ArtIns.getAppValue(&quot;txtFranchise&quot;)+&quot;&quot;).split(&quot;,&quot;).join(&quot;&quot;),10) != parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount1&quot;),10) + parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount2&quot;),10)){
+									ContractMsg1 += tabStr + &quot;金額錯誤，草約金減免 + 本約金減免 需等於 加盟金減免.\n&quot;;
+								}
+							}
+							//開店準備金
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtOpenStoreAmount&quot;))){
+								ContractMsg1 += tabStr + &quot;請填寫 開店準備金.\n&quot;;
+							}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtOpenStoreAmount&quot;),10))){
+								ContractMsg1 += tabStr + &quot;開店準備金 請寫數字.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtOpenStoreAmount&quot;),10)&lt;=0){
+								ContractMsg1 += tabStr + &quot;開店準備金，金額需大於0.\n&quot;;
+							}else if(&quot;&quot;.equals(ContractMsg1)){
+								var txtOpenStoreAmount = parseInt(ContractArtIns.getAppValue(&quot;txtOpenStoreAmount&quot;),10);//開店準備金(申請人填寫)
+								var txtContractAmount = parseInt(ArtIns.getAppValue(&quot;txtContractAmount&quot;),10)*10000;//主單-本約金未稅
+								var txtReduceAmount1 = parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount1&quot;),10);//草約金減免(申請人填寫)
+								var txtReduceAmount2 = parseInt(ContractArtIns.getAppValue(&quot;txtReduceAmount2&quot;),10);//本約金減免(申請人填寫)
+								var OpenStoreAmount = 0;
+								if(&quot;NaN&quot;.equals(txtContractAmount))txtContractAmount = 0;
+								if(txtContractAmount == 0)ContractMsg1 += tabStr + &quot;本約金(未稅) 不可為空 或為 0\n&quot;;
+
+								if(StoreType1.equals(cmbStoreType) || StoreType2.equals(cmbStoreType) || StoreType7.equals(cmbStoreType)){
+									//新進、複數、機構 規則
+									//開店準備金 = (草約金10萬 - 草約金減免 + 本約金(未稅) - 本約金減免) * 0.05 + 本約金(未稅)-本約金減免
+									OpenStoreAmount = (100000 - txtReduceAmount1 + txtContractAmount - txtReduceAmount2)*0.05 + txtContractAmount - txtReduceAmount2;
+								}else {
+									//非新進、複數、機構 規則
+									//開店準備金 = (本約金(未稅) - 本約金減免) * 0.05 + 本約金(未稅)-本約金減免
+									OpenStoreAmount = parseInt((parseFloat(txtContractAmount - txtReduceAmount2)*0.05).toFixed(0),10) + txtContractAmount - txtReduceAmount2;
+								}
+								if(txtOpenStoreAmount != OpenStoreAmount)
+								ContractMsg1 += tabStr + &quot;開店準備金，金額有誤，請使用以下運算式檢查：\n[&quot;+StoreType1+&quot;、&quot;+StoreType2+&quot;、&quot;+StoreType7+&quot;]：開店準備金 = (草約金10萬 - 草約金減免 + 本約金(未稅) - 本約金減免) * 0.05 + 本約金(未稅)-本約金減免\n\n[&quot;+StoreType3+&quot;、&quot;+StoreType4+&quot;、&quot;+StoreType5+&quot;、&quot;+StoreType6+&quot;]開店準備金 = (本約金(未稅) - 本約金減免) * 0.05 + 本約金(未稅)-本約金減免\n&quot;;
+							}
+						}
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName7+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					if(ContractNameVec.indexOf(PaName8) != -1){//教育訓練費稅金收據------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+
+						if(&quot;false&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName8) + 1))){//無勾選教育訓練費稅金
+							if(!&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtGrassTax&quot;)) &amp;&amp; !&quot;0&quot;.equals(ContractArtIns.getAppValue(&quot;txtGrassTax&quot;))){
+								ContractMsg1 += tabStr + &quot;有設定 [教育訓練費稅金]，請勾選契約一覽表[&quot;+PaName8 +&quot;].\n&quot;;
+							}
+						}else{
+							//教育訓練費稅金收據
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtGrassTax&quot;))){
+								ContractMsg1 += tabStr + &quot;請填寫 教育訓練費稅金.\n&quot;;
+							}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtGrassTax&quot;),10))){
+								ContractMsg1 += tabStr + &quot;教育訓練費稅金 請寫數字.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtGrassTax&quot;),10)&lt;=0){
+								ContractMsg1 += tabStr + &quot;教育訓練費稅金，金額需大於0.\n&quot;;
+							}
+						}
+						
+						
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName8+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					
+					if(ContractNameVec.indexOf(PaName9) != -1){//讓渡金收據------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						var txtTransferMoney2 = ContractArtIns.getAppValue(&quot;txtTransferMoney2&quot;);
+						var txtTransferMoney2Split = ContractArtIns.getAppValue(&quot;txtTransferMoney2Split&quot;);
+						if(&quot;false&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName9) + 1))){//無勾選讓渡金收據
+							
+							if(!&quot;&quot;.equals(txtTransferMoney2) &amp;&amp; !&quot;0&quot;.equals(txtTransferMoney2)){
+								ContractMsg1 += tabStr + &quot;有設定 [讓渡金(含稅)]，請勾選契約一覽表[&quot;+PaName9 +&quot;].\n&quot;;
+							}
+							if(!&quot;&quot;.equals(txtTransferMoney2Split) &amp;&amp; !&quot;0&quot;.equals(txtTransferMoney2Split)){
+								ContractMsg1 += tabStr + &quot;有設定 [讓渡金分期給付(含稅)]，請勾選契約一覽表[&quot;+PaName9 +&quot;].\n&quot;;
+							}
+						}else{
+							//讓渡金
+							if(&quot;&quot;.equals(txtTransferMoney2Split) || &quot;0&quot;.equals(txtTransferMoney2Split)){
+								if(&quot;&quot;.equals(txtTransferMoney2)){
+									ContractMsg1 += tabStr + &quot;請填寫 讓渡金(含稅).\n&quot;;
+								}else if(&quot;NaN&quot;.equals(parseInt(txtTransferMoney2,10))){
+									ContractMsg1 += tabStr + &quot;讓渡金(含稅) 請寫數字.\n&quot;;
+								}else if(parseInt(txtTransferMoney2,10)&lt;=0){
+									ContractMsg1 += tabStr + &quot;讓渡金(含稅)，金額需大於0.\n&quot;;
+								}
+							}else{
+								if(&quot;NaN&quot;.equals(parseInt(txtTransferMoney2Split,10))){
+									ContractMsg1 += tabStr + &quot;讓渡金分期給付(含稅) 請寫數字.\n&quot;;
+								}
+							}
+						}
+						
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName9+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					if(ContractNameVec.indexOf(PaName10) != -1){//擔保金收據------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						if(&quot;false&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName10) + 1))){//無勾選擔保金收據
+							if(!&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtSecurityDeposit&quot;)) &amp;&amp; !&quot;0&quot;.equals(ContractArtIns.getAppValue(&quot;txtSecurityDeposit&quot;))){
+								ContractMsg1 += tabStr + &quot;有設定 [擔保金金額]，請勾選契約一覽表[&quot;+PaName10 +&quot;].\n&quot;;
+							}
+						}else{
+							//擔保金
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtSecurityDeposit&quot;))){
+								ContractMsg1 += tabStr + &quot;請填寫 擔保金.\n&quot;;
+							}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtSecurityDeposit&quot;),10))){
+								ContractMsg1 += tabStr + &quot;擔保金 請寫數字.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtSecurityDeposit&quot;),10)&lt;=0){
+								ContractMsg1 += tabStr + &quot;擔保金，金額需大於0.\n&quot;;
+							}
+						}
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName10+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					
+					if(!&quot;&quot;.equals(Errmsg)){//------------------------------------------------------------------------
+						Errmsg = &quot;本約簽呈-合約填寫：\n\n&quot; + Errmsg;
+					}
+
+					//契約一覽表卡控
+					ContractMsg1 = &quot;&quot;;
+					
+					//存貨報廢------------------------------------------------------------------------
+					var MsgFlag = false;
+					var flag = true;
+					for(var i=0;i&lt;ContractNameVec.size();i+=2){//存貨報廢 多版本的關係需在這卡控
+						var getContractName = ContractNameVec.get(i);
+						var getContractChk = ContractNameVec.get(i+1);
+						if((PaName12+&quot;&quot;).equals(getContractName+&quot;&quot;)){
+							MsgFlag = true;
+							if(&quot;true&quot;.equals(getContractChk)){
+								flag = false;
+							}
+						}
+					}
+					if(MsgFlag &amp;&amp; flag){
+						ContractMsg1 += &quot;[&quot; + PaName12 + &quot;] 為必有，請勾選。&quot; + &quot;\n&quot;;
+					}
+					
+					
+					//var Config = getConfig();
+					//var PaName7 = Config.PaName7;//加盟
+					//var PaName8 = Config.PaName8;//草約
+					//var ContractNameVec = getContractNameList2(ArtIns);
+					if(ContractNameVec.indexOf(PaName7) != -1){
+						if(&quot;true&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName7)+1))){
+							if(ContractNameVec.indexOf(PaName8) != -1){
+								if(&quot;true&quot;.equals(ContractNameVec.get(ContractNameVec.indexOf(PaName8)+1))){
+									ContractMsg1 += tabStr + &quot;[&quot; + PaName7 + &quot;]&quot; + &quot; 與 [&quot;+PaName8+&quot;] 請二擇一勾選。\n&quot;;
+								}
+							}
+						}
+					}
+					
+					//其他協議書------------------------------------------------------------------------
+					var tblContractList = ArtIns.getAppDataMap().get(&quot;tblContractList&quot;);
+					
+					for(var i=0;i&lt;tblContractList.size();i++){
+						var Row = tblContractList.get(i);
+						var chk = Row.get(&quot;ITEM1&quot;);
+						var Name = Row.get(&quot;ITEM3&quot;);
+						if(&quot;其他協議書&quot;.equals(Name)){
+							if(&quot;true&quot;.equals(chk)){
+								if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;atchOtherContract&quot;)))ContractMsg1 += tabStr + &quot;請上傳 [其他協議書] \n&quot;;
+								else if((ArtIns.getAppValue(&quot;atchOtherContract&quot;)+&quot;&quot;).indexOf(&quot;_&quot;) != -1)ContractMsg1 += tabStr + &quot;[其他協議書] 檔案名稱不可包含 [_] 字元 \n&quot;;
+							}
+							break;
+						}
+					}
+					if(!&quot;&quot;.equals(ContractMsg1)){
+						Errmsg = &quot;本約簽呈-契約一覽表：\n\n&quot; + ContractMsg1 + &quot;\n\n&quot; + Errmsg;
+					}
+				}
+			}
+		}
+
+		if(StoreType3.equals(cmbStoreType) 
+		|| true){//契約期滿續約
+			var txtEditContractInsID = ArtIns.getAppValue(&quot;txtEditContractInsID&quot;);
+			if(&quot;&quot;.equals(txtEditContractInsID)){
+				Errmsg += &quot;[本約簽呈]-請於[契約一覽表]中合約內容進行[合約填寫]\n&quot;;
+			}else{
+				var tabStr = &quot;\t&quot;;
+				var ContractArtIns = Client.getArtInstance(txtEditContractInsID);
+				if(ContractArtIns != null){
+					var ContractMsg1 = &quot;&quot;;
+					var ContractNameVec = getContractNameList2(ArtIns);
+					
+					if(ContractNameVec.indexOf(PaName1) != -1){//本約------------------------------------------------------------------------
+						if(From == 2){
+							//建物門牌
+							var tblStoreAddress = ContractArtIns.getAppDataMap().get(&quot;tblStoreAddress&quot;);
+							var tblStoreAddressFlag = true;
+							for(var i=0;i&lt;tblStoreAddress.size();i++){
+								var chk = tblStoreAddress.get(i).get(&quot;ITEM1&quot;);
+								if(&quot;true&quot;.equals(chk)){
+									tblStoreAddressFlag = false;
+								}
+							}
+							if(tblStoreAddressFlag)ContractMsg1 += &quot;請勾選 店舖建物之門牌.\n&quot;;
+							//承租人
+							var chkLessee1 = ContractArtIns.getAppValue(&quot;chkLessee1&quot;);
+							var chkLessee2 = ContractArtIns.getAppValue(&quot;chkLessee2&quot;);
+							var txtLessee2 = ContractArtIns.getAppValue(&quot;txtLessee2&quot;);
+							if(&quot;false&quot;.equals(chkLessee1) &amp;&amp; &quot;false&quot;.equals(chkLessee2)){
+								ContractMsg1 += tabStr + &quot;請勾選 承租人.\n&quot;;
+							}else if(&quot;true&quot;.equals(chkLessee2) &amp;&amp; &quot;&quot;.equals(txtLessee2)){
+								ContractMsg1 += tabStr + &quot;勾選承租人其他 請填寫承租人.\n&quot;;
+							}
+							//租賃期間
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtSY&quot;))||
+							&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtSM&quot;))||
+							&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtSD&quot;))||
+							&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtEY&quot;))||
+							&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtEM&quot;))||
+							&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtED&quot;))
+							){
+								ContractMsg1 += tabStr + &quot;請填寫 租賃期間.\n&quot;;
+							}else{
+								var SDate = (parseInt(ContractArtIns.getAppValue(&quot;txtSY&quot;),10)+1911) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtSM&quot;) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtSD&quot;);
+								var EDate = (parseInt(ContractArtIns.getAppValue(&quot;txtEY&quot;),10)+1911) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtEM&quot;) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtED&quot;);
+								if(!ChkDateTime(SDate) ||
+								!ChkDateTime(EDate)
+								){
+									ContractMsg1 += tabStr + &quot;租賃期間 格式不正確(請填數字).\n&quot;;
+								}else if(EDate &lt; SDate){
+									ContractMsg1 += tabStr + &quot;租賃期間 結束日期 不可小於 開始日期.\n&quot;;
+								}else if(parseInt(ContractArtIns.getAppValue(&quot;txtSY&quot;),10)&gt;=1000 ||
+								parseInt(ContractArtIns.getAppValue(&quot;txtEY&quot;),10)&gt;=1000){
+									ContractMsg1 += tabStr + &quot;租賃期間 格式不正確(請使用民國年).\n&quot;;
+								}
+							}
+						}
+						if(From == 0 || From == 1 || From == 2){
+							//Layout
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;AtchLayout&quot;))){
+								ContractMsg1 += tabStr + &quot;請上傳 店舖LAYOUT.\n&quot;;
+							}
+						}
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName1+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					
+					if(ContractNameVec.indexOf(PaName2) != -1 &amp;&amp; From == 2){//附帶契約(法遵)------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						//開店型態
+						var rdoStoreType1 = ContractArtIns.getAppValue(&quot;rdoStoreType1&quot;);
+						var rdoStoreType2 = ContractArtIns.getAppValue(&quot;rdoStoreType2&quot;);
+						if(&quot;false&quot;.equals(rdoStoreType1) &amp;&amp; &quot;false&quot;.equals(rdoStoreType2)){
+							ContractMsg1 += tabStr + &quot;請勾選 開店型態.\n&quot;;
+						}
+						//店舖保險費
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtStoreInsY&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtStoreInsM&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtStoreInsD&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtStoreInsT&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtStoreInsH&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtStoreInsP&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtStoreInsO&quot;))
+						){
+							ContractMsg1 += tabStr + &quot;請填寫 第１３條（店舖保險費）相關資料.\n&quot;;
+						}else{
+							if(!ChkDateTime((parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsY&quot;),10)+1911) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtStoreInsM&quot;) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtStoreInsD&quot;))
+							){
+								ContractMsg1 += tabStr + &quot;請填寫 第１３條（店舖保險費）相關日期欄位 格式不正確(請填數字).\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsY&quot;),10)&gt;=1000){
+								ContractMsg1 += tabStr + &quot;第１３條（店舖保險費）相關日期欄位 格式不正確(請使用民國年).\n&quot;;
+							}
+							
+							if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsT&quot;),10)) ||
+							&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsH&quot;),10)) ||
+							&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsP&quot;),10)) ||
+							&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsO&quot;),10))){
+								ContractMsg1 += tabStr + &quot;請填寫 第１３條（店舖保險費）相關金額欄位 格式不正確(請填數字).\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsT&quot;),10)&gt;9 ||
+							parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsH&quot;),10)&gt;9 ||
+							parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsP&quot;),10)&gt;9 ||
+							parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsO&quot;),10)&gt;9 || (
+							parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsT&quot;),10)==0 &amp;&amp;
+							parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsH&quot;),10)==0 &amp;&amp;
+							parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsP&quot;),10)==0 &amp;&amp;
+							parseInt(ContractArtIns.getAppValue(&quot;txtStoreInsO&quot;),10)==0
+							) ){
+								ContractMsg1 += tabStr + &quot;請填寫 第１３條（店舖保險費）相關金額欄位 數字需小於10，總額 不可等於0.\n&quot;;
+							}
+						}
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName2+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					
+					if(ContractNameVec.indexOf(PaName3) != -1){//讓渡金協議書------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+	
+						//讓渡金
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtTransferMoney&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 讓渡金(未稅).\n&quot;;
+						}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtTransferMoney&quot;),10))){
+							ContractMsg1 += tabStr + &quot;讓渡金(未稅) 請寫數字.\n&quot;;
+						}else if(parseInt(ContractArtIns.getAppValue(&quot;txtTransferMoney&quot;),10)==0){
+							ContractMsg1 += tabStr + &quot;讓渡金為0，可取消勾選讓渡金協議書或填寫讓渡金金額.\n&quot;;
+						}else if(parseInt(ContractArtIns.getAppValue(&quot;txtTransferMoney&quot;),10)&lt;=0){
+							ContractMsg1 += tabStr + &quot;讓渡金(未稅) 需大於0.\n&quot;;
+						}
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName3+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					if(ContractNameVec.indexOf(PaName4) != -1){//K專案營業激勵獎金協議書------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						
+						//自開店日起之次月起月份
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtOpenStoreMonth&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 自開店日起之次月起月份\n&quot;;
+						}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtOpenStoreMonth&quot;),10))){
+							ContractMsg1 += tabStr + &quot;自開店日起之次月起月份 請寫數字.\n&quot;;
+						}else if(parseInt(ContractArtIns.getAppValue(&quot;txtOpenStoreMonth&quot;),10)&gt;KopenStoreMonthMax &amp;&amp;
+						parseInt(ContractArtIns.getAppValue(&quot;txtOpenStoreMonth&quot;),10)&lt;=0){
+							ContractMsg1 += tabStr + &quot;自開店日起之次月起月份 範圍需於1~&quot; + KopenStoreMonthMax + &quot;之間.\n&quot;;
+						}
+						//毛利
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtGrossProfit&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 毛利%.\n&quot;;
+						}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtGrossProfit&quot;),10))){
+							ContractMsg1 += tabStr + &quot;毛利% 請寫數字.\n&quot;;
+						}else if(parseInt(ContractArtIns.getAppValue(&quot;txtGrossProfit&quot;),10)&gt;KGrossProfitMax &amp;&amp;
+						parseInt(ContractArtIns.getAppValue(&quot;txtGrossProfit&quot;),10)&lt;=0){
+							ContractMsg1 += tabStr + &quot;毛利% 範圍需於1~&quot; + KGrossProfitMax + &quot;之間.\n&quot;;
+						}
+						
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName4+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+					if(ContractNameVec.indexOf(PaName5) != -1){//員工激勵獎金協議書------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						//日期期間
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtbonusSY&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtbonusSM&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtbonusSD&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtbonusEY&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtbonusEM&quot;))||
+						&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtbonusED&quot;))
+						){
+							ContractMsg1 += tabStr + &quot;請填寫 日期期間.\n&quot;;
+						}else{
+							var SDate = (parseInt(ContractArtIns.getAppValue(&quot;txtbonusSY&quot;),10)+1911) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtbonusSM&quot;) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtbonusSD&quot;);
+							var EDate = (parseInt(ContractArtIns.getAppValue(&quot;txtbonusEY&quot;),10)+1911) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtbonusEM&quot;) + &quot;/&quot; + ContractArtIns.getAppValue(&quot;txtbonusED&quot;);
+							if(!ChkDateTime(SDate) ||
+							!ChkDateTime(EDate)
+							){
+								ContractMsg1 += tabStr + &quot;日期期間 格式不正確(請填數字).\n&quot;;
+							}else if(EDate &lt; SDate){
+								ContractMsg1 += tabStr + &quot;日期期間 結束日期 不可小於 開始日期.\n&quot;;
+							}else if(parseInt(ContractArtIns.getAppValue(&quot;txtbonusSY&quot;),10)&gt;=1000 ||
+							parseInt(ContractArtIns.getAppValue(&quot;txtbonusEY&quot;),10)&gt;=1000){
+								ContractMsg1 += tabStr + &quot;日期期間 格式不正確(請使用民國年).\n&quot;;
+							}
+						}
+						//營業總利益加計%
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtbonus&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 營業總利益加計%.\n&quot;;
+						}else if(&quot;NaN&quot;.equals(parseInt(ContractArtIns.getAppValue(&quot;txtbonus&quot;),10))){
+							ContractMsg1 += tabStr + &quot;營業總毛利加計% 請寫數字.\n&quot;;
+						}else if(parseInt(ContractArtIns.getAppValue(&quot;txtbonus&quot;),10)&gt;bonusMax ||
+						parseInt(ContractArtIns.getAppValue(&quot;txtbonus&quot;),10)&lt;=0){
+							ContractMsg1 += tabStr + &quot;營業總毛利加計% 範圍需於1~&quot; + bonusMax + &quot;之間.\n&quot;;
+						}
+						
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName5+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+
+					if(ContractNameVec.indexOf(PaName15) != -1){//薪傳保險補助金協議書------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtLISAOS1&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 原簽約者一.\n&quot;;
+						}
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtLISARC1&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 續簽約者一.\n&quot;;
+						}
+
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName15+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+
+					if(ContractNameVec.indexOf(PaName16) != -1){//薪傳獎勵金協議書------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtLBAOS1&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 原簽約者一.\n&quot;;
+						}
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtLBARC1&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 續簽約者一.\n&quot;;
+						}
+
+						var txtLBAAmt = parseInt((ContractArtIns.getAppValue(&quot;txtLBAAmt&quot;)+&quot;&quot;).split(&quot;,&quot;).join(&quot;&quot;),10);
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtLBAAmt&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 獎勵金.\n&quot;;
+						}else if(&quot;NaN&quot;.equals(txtLBAAmt)){
+							ContractMsg1 += tabStr + &quot;獎勵金 請寫數字.\n&quot;;
+						}else if(txtLBAAmt&lt;=0){
+							ContractMsg1 += tabStr + &quot;獎勵金，金額需大於0.\n&quot;;
+						}
+
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName16+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+
+					if(ContractNameVec.indexOf(PaName17) != -1 &amp;&amp; From == 2){//續約特別協議書(法遵)------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+						
+						if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtRSCOFS&quot;))){
+							ContractMsg1 += tabStr + &quot;請填寫 原加盟店.\n&quot;;
+						}
+
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName17+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+
+					if(ContractNameVec.indexOf(PaName11) != -1){//複數特別協議書------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+
+						if(From == 2){//法遵
+							var tblPSAOS = ContractArtIns.getAppDataMap().get(&quot;tblPSAOS&quot;);
+							var tblPSAOSFlag = false;
+							for(var i=0;i&lt;tblPSAOS.size();i++){
+								var StoreNo = tblPSAOS.get(i).get(&quot;ITEM1&quot;);
+								var StoreName = tblPSAOS.get(i).get(&quot;ITEM2&quot;);
+								if(&quot;&quot;.equals(StoreNo) || &quot;&quot;.equals(StoreName)){
+									tblPSAOSFlag = true;
+									break;
+								}
+							}
+							if(tblPSAOS.size() == 0)ContractMsg1 += &quot;請填寫 [原店鋪].\n&quot;;
+							if(tblPSAOSFlag)ContractMsg1 += &quot;[原店鋪] 店號 或 店名 不可為空.\n&quot;;
+						}
+
+						if(From == 1){//開發
+							if(&quot;&quot;.equals(ContractArtIns.getAppValue(&quot;txtPSAEATF&quot;))){
+								ContractMsg1 += tabStr + &quot;請填寫 教育訓練費.\n&quot;;
+							}
+						}
+
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName11+&quot;]\n&quot;;
+							Errmsg += ContractMsg1 + &quot;\n&quot;;
+						}
+					}
+
+					if(ContractNameVec.indexOf(PaName18) != -1){//新接店特別契約------------------------------------------------------------------------
+						ContractMsg1 = &quot;&quot;;
+
+						if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOperiod&quot;))){//第X期
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 第幾期.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOsy&quot;))){//起始年
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 起始年.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOsm&quot;))){//起始月
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 起始月.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOey&quot;))){//終止年
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 終止年.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSOem&quot;))){//終止月
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 終止月.\n&quot;;
+						}else if(&quot;&quot;.equals(ArtIns.getAppValue(&quot;txtSecurityCommittee&quot;))){//保障委任
+							ContractMsg1 += tabStr + &quot;請填寫 新設店特約 保障委任.\n&quot;;
+						}
+						
+						if(!&quot;&quot;.equals(ContractMsg1)){
+							Errmsg += &quot;[&quot;+PaName18+&quot;]\n&quot;;
 							Errmsg += ContractMsg1 + &quot;\n&quot;;
 						}
 					}
